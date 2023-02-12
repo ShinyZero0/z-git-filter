@@ -10,9 +10,27 @@
 
 # Then ${0:h} to get plugin's directory
 
-if [[ ${zsh_loaded_plugins[-1]} != */z-git-filter && -z ${fpath[(r)${0:h}]} ]] {
-    fpath+=( "${0:h}" )
+if [[ ${zsh_loaded_plugins[-1]} != */z-git-filter && -z ${fpath[(r)${0:h}/functions]} ]] {
+    fpath+=( "${0:h}/functions" )
 }
+
+vars=(thing 1 thing 2)
+onetoten(){
+for i in vars
+do
+    echo "$i"
+done
+}
+
+# vars=(thing 1 thing 2)
+# addtovars(){
+#     $vars+="$1"
+# }
+# printvars(){
+#     for i in $vars; do
+#         echo $i;
+#     done
+# }
 
 gnoadd(){
 case "$1" in
@@ -27,7 +45,14 @@ case "$1" in
 esac
 }
 gnodel(){
-    git status -s | ack --output="$'" "^D.? *" | xargs git restore --staged
+    dex)
+        git status -s | ack --output="$'" "^D.? *"  | xargs git restore --staged
+        ;;
+    wd)
+        git status -s | ack --output="$'" "^.?D *" | xargs git restore 
+        ;;
+    *)
+        git status -s | ack --output="$'" "^D.? *" | xargs git restore --staged
 }
 # Standard hash for plugins, to not pollute the namespace
 typeset -gA Plugins
