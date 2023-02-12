@@ -45,6 +45,7 @@ case "$1" in
 esac
 }
 gnodel(){
+case "$1" in
     dex)
         git status -s | ack --output="$'" "^D.? *"  | xargs git restore --staged
         ;;
@@ -53,6 +54,7 @@ gnodel(){
         ;;
     *)
         git status -s | ack --output="$'" "^D.? *" | xargs git restore --staged
+esac
 }
 # Standard hash for plugins, to not pollute the namespace
 typeset -gA Plugins
