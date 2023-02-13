@@ -32,24 +32,24 @@ done
 #     done
 # }
 
-gnoadd(){
+gunadd(){
 case "$1" in
-    dex)
+    stg)
         git status -s | ack --output="$'" "^A.? *"  | xargs git restore --staged
         ;;
-    wd)
+    dir)
         git status -s | ack --output="$'" "^.?A *" | xargs git restore 
         ;;
     *)
         git status -s | ack --output="$'" "^A.? *" | xargs git restore --staged
 esac
 }
-gnodel(){
+gundel(){
 case "$1" in
-    dex)
+    stg)
         git status -s | ack --output="$'" "^D.? *"  | xargs git restore --staged
         ;;
-    wd)
+    dir)
         git status -s | ack --output="$'" "^.?D *" | xargs git restore 
         ;;
     *)
