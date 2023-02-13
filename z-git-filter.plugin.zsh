@@ -66,6 +66,7 @@ case "$1" in
         ;;
     *)
         echo "Usage: gexc {stg|dir} to except (restore) staged files or working directory files"
+esac
 }
 # Standard hash for plugins, to not pollute the namespace
 typeset -gA Plugins
