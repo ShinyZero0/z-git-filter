@@ -10,24 +10,63 @@
 
 # Then ${0:h} to get plugin's directory
 
-if [[ ${zsh_loaded_plugins[-1]} != */z-git-filter && -z ${fpath[(r)${0:h}]} ]] {
-    fpath+=( "${0:h}" )
+if [[ ${zsh_loaded_plugins[-1]} != */z-git-filter && -z ${fpath[(r)${0:h}/functions]} ]] {
+    fpath+=( "${0:h}/functions" )
 }
 
-gnoadd(){
+vars=(thing 1 thing 2)
+onetoten(){
+for i in vars
+do
+    echo "$i"
+done
+}
+
+# vars=(thing 1 thing 2)
+# addtovars(){
+#     $vars+="$1"
+# }
+# printvars(){
+#     for i in $vars; do
+#         echo $i;
+#     done
+# }
+
+gunadd(){
 case "$1" in
-    dex)
-        git status -s | ack --output="$'" "^A.? *"  | xargs git restore --staged
+    stg)
+        git status -s | rg "^A.? *" -r "" | xargs git restore --staged
         ;;
-    wd)
-        git status -s | ack --output="$'" "^.?A *" | xargs git restore 
+    dir)
+        git status -s | rg "^.?A *" -r "" | xargs git restore 
         ;;
     *)
-        git status -s | ack --output="$'" "^A.? *" | xargs git restore --staged
+        echo "Usage: gunadd {stg|dir} <pattern> to unadd staged files or working directory files"
 esac
 }
-gnodel(){
-    git status -s | ack --output="$'" "^D.? *" | xargs git restore --staged
+gundel(){
+case "$1" in
+    stg)
+        git status -s | rg "^D *" -r "" | xargs git restore --staged
+        ;;
+    dir)
+        git status -s | rg "^.?D *" -r "" | xargs git restore 
+        ;;
+    *)
+        echo "Usage: gundel {stg|dir} <pattern> to undelete staged files or working directory files"
+esac
+}
+gexc(){
+case "$1" in
+    stg)
+        git status -s | rg -v "^R" | rg "^.{0, 2} *" -r "" | rg "$2" | xargs git restore --staged
+        ;;
+    dir)
+        git status -s | rg -v "^.R" | rg "^.{0, 2} *" -r "" | rg "$2" | xargs git restore 
+        ;;
+    *)
+        echo "Usage: gexc {stg|dir} to except (restore) staged files or working directory files"
+esac
 }
 # Standard hash for plugins, to not pollute the namespace
 typeset -gA Plugins
